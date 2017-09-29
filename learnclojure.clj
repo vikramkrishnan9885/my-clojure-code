@@ -163,9 +163,34 @@
 ;; More on collectiona
 ;; All Clojure collections are immutable and persistent
 (def x (list 1 3 4))
-(cons 0 x)
+(cons 0 x) ;; Cons will convert to list
 (conj x 0)
 (print x)
 (first x)
 (last x)
 (nth x 1)
+
+(def v (vector 1 3 4))
+(conj v 0);; Note that this differs from conj for a list with only added to head, this adds to the end of the vector
+
+(type (concat x v)) ;; Note concat returns a lazy seq
+
+(assoc {:a 1} :b 2) ;; Assoc adds key to a given key-value map
+(assoc-in {:settings {:a 1 :b 2}} [:settings :a] "a")
+(update-in {:settings {:a 1 :b 2}} [:settings :a] inc) ;; Instead of taking a new value, it takes a function that updates an existing value
+
+
+(def m {:a 1 :b 2})
+(get m :a)
+(:a m)
+(m :a)
+(:c m)
+(m :c)
+
+;; Let us play around with sets for a while
+(def s #{1 2 3})
+(conj s 4) ;; Adds to set
+(conj s 3) ;; Has no effect, sets store only distinct values
+(disj s 3) ;; Dis-join is the reverse of con-join
+(contains? s 3) ;; Note that the original set is not modified and we get a copy in return
+(get s 4) ;; As above
