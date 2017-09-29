@@ -119,3 +119,53 @@
 ;; In Clojure you use lists only if you want to preserve sequence somehow
 (fn [] "Hello World")
 
+((fn [] "Hello World")) ;; Note that now the function will be evaluated as it is just an element in a list
+
+(def hello (fn [] "Hello function name")) ;; Give the function a name
+(hello) ;; evaluate function and convert to first element of list
+
+(defn hello2 [] "Hello") ;; Note like Ruby there is no need for an explicit return, all expressions are evaluated and the last one is returned
+(hello2)
+
+(defn hello [name] (str "Hello, "  name)) ;; This is how you create a function with arguments
+(hello "Jane")
+(hello (vector "Jane"))
+
+(require '[clojure.repl :refer [doc]]) ;; Used for docstring to create documentation
+(defn hello4 "Greets a person given name and title" [name, title] (str "Hello " title " " name)) ;; This shows us how to create documentation and pass multiple arguments
+(doc hello4)
+(hello4 "Anderson" "Mr.") ;; Note we did not have to create a vector here
+
+;; Let us say you want to pass variable number of arguments like (*args, **kwargs) in Python. This is how you do it
+(defn hello [& args]
+  (str "Hello" (apply str args))
+)
+(hello "Fred" "Jack")
+(hello "Peter" "Paul" "Mary")
+
+
+;; Function polymorphism (overloading)
+(defn hello5
+  ([] "Hello World!")
+  ([name] (str "Hello" name))
+)
+(hello5)
+(hello5 "Peter")
+
+
+;; Passing hash maps
+(defn hello [config] ;; variants include (defn  hello [name :name ... and (defn hello [name :name :as config ... in both cases replace ':name config' below with 'name'
+  (str "Hello " (:name config))
+)
+(def person {:name "Jane" :occupation "Tailor" :country "US"})
+(hello person)
+
+;; More on collectiona
+;; All Clojure collections are immutable and persistent
+(def x (list 1 3 4))
+(cons 0 x)
+(conj x 0)
+(print x)
+(first x)
+(last x)
+(nth x 1)
