@@ -82,4 +82,40 @@
   )
 )
 
-;; Other variants of this include
+;; Other variants of this include if-not
+
+(if-not (empty? x) ;; inverse of previous predicate due to if-not
+  (
+    do
+      (println "Second OK")
+      :ok
+  )
+)
+
+;; This logic can be implemented usign when and when-not
+(when-not (empty? x)
+  (do
+    (println "Third OK")
+    :ok
+  )
+)
+
+;; switch case
+(case x
+  "Hello" :hello
+  "Goodbye" :goodbye
+  :nothing
+)
+
+;; Another way to pattern match is to use cond (classic LISP style)
+(cond
+  (= x "Goodbye") :goodbye
+  (= (reverse x) "olleh") :hello
+  :otherwise :nothing
+) ;; note that otherwise is always true, so it is always true
+
+;; Now we move on to functions
+;; Note that the argument list to a function is a vector
+;; In Clojure you use lists only if you want to preserve sequence somehow
+(fn [] "Hello World")
+
