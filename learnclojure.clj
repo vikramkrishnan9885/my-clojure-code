@@ -194,3 +194,83 @@
 (disj s 3) ;; Dis-join is the reverse of con-join
 (contains? s 3) ;; Note that the original set is not modified and we get a copy in return
 (get s 4) ;; As above
+
+;; Recursion
+
+(defn my-sum [total vals] ;; arguments are accumulator and the incoming values
+  (if (empty? vals) ;; Write your terminal condition
+    total
+    (my-sum (+ (first vals) total) (rest vals)) ;; call the same function back again
+  )
+)
+
+(my-sum 0 [0 1 2 3 4]) ;; This function's API you will notice is not ideal, people have to pass an accumulator let us improve upon this
+
+;; We use function overloading explained above
+(defn my-sum
+  ([vals] (my-sum 0 vals))
+  ([total vals]
+    (if (empty? vals) ;; Write your terminal condition
+      total
+      (my-sum (+ (first vals) total) (rest vals)) ;; call the same function back again
+    )
+  )
+)
+
+(my-sum [0 1 4 7]) ;; This function is pretty sweet, however it suffers from a major weakness, there is no TCO
+
+(defn my-sum
+  ([vals] (my-sum 0 vals))
+  ([total vals]
+    (if (empty? vals) ;; Write your terminal condition
+      total
+      (recur (+ (first vals) total) (rest vals)) ;; Note we have replace function call with recur
+    )
+  )
+)
+;; By replacing the second my-sum with recur we now have TCO
+(my-sum [0 1 4 7])
+
+;; BTW you can also use loops like in any other programming language
+(defn my-sum [vals]
+  (loop [total 0 values vals] ;; Initialize variables
+    (if (empty? values) ;; The until condition
+      total
+      (recur (+ (first values) total) (rest values))
+    )
+  )
+)
+(my-sum [0 1 4 7])
+
+;; We will now use reduce function to calculate the sum
+;; syntax is reduce(function initial_value list)
+(def x (list 0 1 2 3 4))
+(def y 0)
+(defn sum [total vals] (+ total vals))
+(reduce sum y x)
+(+ (+ (+ (+ (+ 0 0) 1) 2) 3) 4) ;; This is what reduce does underneath the hood
+(reduce + [1 3 4]) ;; If no initialization values are provided then it adds the first two values
+
+(defn filter-even [acc next-val]
+  (if (even? next-val)
+    (conj acc next-val)
+    acc
+  )
+)
+(reduce filter-even [] [0 1 2 3 4 5 6]) ;; reduce applies function to list
+(filter even? [0 1 2 4 7 9]) ;; In real life just use filter
+
+(map inc [0 1 2 3 4 5 6]) ;; when you wish to apply the same function to all values in a list map is a perfectly good option
+;; This is a useful link https://www.braveclojure.com/core-functions-in-depth/
+
+(defn group-even [acc next-val]
+  (let [key (if (even? next-val) :even :odd)]
+    (update-in acc [key] #(conj % next-val)) ;; Anonymous functions please refer to https://clojure.org/api/cheatsheet
+  )
+)
+
+(reduce group-even {} [0 1 2 4 7 8])
+
+(group-by #(if (even? %) :even :odd) [0 1 2 4 7 8])
+
+
