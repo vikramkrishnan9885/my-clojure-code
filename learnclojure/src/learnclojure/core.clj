@@ -10,7 +10,7 @@
 (defn foo
   "I don't do a whole lot."
   [x]
-  (println x "Hello, World!"))
+  (str x "Hello, World!"))
 
 ;; (clojure.string/split "a,b,c" #",")
 ;; (s/split "a,b,c" #",")
@@ -22,3 +22,11 @@
 (defn -main []
   (foo "Main")
 )
+
+(comment
+(require '[clojure.test :refer [is testing]])
+(testing "Make sure foo works"
+  (is (= (foo "") "Hello, World!"))
+  (is (= (foo "Test ") "Test Hello, World!"))
+)
+) ;; This ensures that the code is not created into an executable
