@@ -16,6 +16,12 @@
 ;; (s/split "a,b,c" #",")
 (split "a,b,c" #",")
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;; JAVA INTEROP
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 (Date.) ;; dot after Date denotes constructor - Java InterOp
 (new java.util.Date) ;; This also works and is equivalent to the dot notation used above
 
@@ -132,6 +138,12 @@
 ;; Ideally note that this gen-class malarkey would not be needed. Create folders called java/ and clj/ in your src/ directory. Add :source-paths and :java-source-pths to project.clj and import the class using classname in your clojure code
 
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;; MAIN AND TESTING
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 ;; To create an executable we need a -main function similar to Java main
 (defn -main []
   (foo "Main")
@@ -144,3 +156,4 @@
   (is (= (foo "Test ") "Test Hello, World!"))
 )
 ) ;; This ensures that the code is not created into an executable
+
