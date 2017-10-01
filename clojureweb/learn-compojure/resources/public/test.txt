@@ -1,0 +1,3 @@
+Hello from test.txt. This is useful for fetching static resources
+
+
