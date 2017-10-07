@@ -77,6 +77,16 @@
     )
 )
 
+(
+    defn add-project [request]
+    (
+      prn (:json-params request) ;; PRINT OUT THE REQUEST BECAUSE WE HAVE NOTHING BETTER TO DO
+    )
+    (
+      ring-resp/created "http://fake-201-url" "fake 201 in body" ;; RETURN A RESPONSE WITH THE FIRST STRING BEING A FAKE HEADER AND THE SECOND A FAKE BODY
+    )
+)
+
 ;; Defines "/" and "/about" routes with their associated :get handlers.
 ;; The interceptors defined after the verb map (e.g., {:get home-page}
 ;; apply to / and its children (/about).
@@ -85,6 +95,7 @@
 ;; Tabular routes
 (def routes #{["/" :get (conj common-interceptors `home-page)]
               ["/projects" :get (conj common-interceptors `get-projects)] ;; ADD OUR GET ENDPOINT, NEED FURTHER STUDY TO SEE HOW THE CODE BELOW DIFFERS FROM THE TABLE THINGIE WE HAVE HERE
+              ["/projects" :post (conj common-interceptors `add-project)]
               ["/projects/:project-name" :get (conj common-interceptors `get-project)] ;; END POINT FOR PARAMETERIZED GET
               ["/about" :get (conj common-interceptors `about-page)]})
 
