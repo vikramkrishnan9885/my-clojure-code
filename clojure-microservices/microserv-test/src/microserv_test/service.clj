@@ -7,9 +7,18 @@
             [monger.core :as mg] ;; WE ADDED THIS FOR MONGODB
             [monger.collection :as mc]
             [monger.json :as mj]
+            ;; [clj-http.client :as client] ;; HTTP CLIENT FROM CLOJARS
   )
 ) ;; ALIASES IMPROVE READABILITY
 
+
+;; TESTING HTTP CLIENT
+(clj-http.client/get "https://api.github.com/search/respositories?q=music+language:clojure"
+  {:debug false
+   :content-type :json
+   :accept :json
+  }
+)
 
 ;; WE ARE MOCKING A JSON OBJECT RESPONSE
 (def mock-project-collection

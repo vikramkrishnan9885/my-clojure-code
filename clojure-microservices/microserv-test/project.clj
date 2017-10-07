@@ -16,7 +16,8 @@
                  [org.slf4j/jul-to-slf4j "1.7.22"]
                  [org.slf4j/jcl-over-slf4j "1.7.22"]
                  [org.slf4j/log4j-over-slf4j "1.7.22"]
-                 [com.novemberain/monger "3.1.0"]
+                 [com.novemberain/monger "3.1.0"] ;; WE ADDED THIS FOR MONGO
+                 [clj-http "3.7.0"] ;; THIS IS FOR THE CLOJARS BASED HTTP CLIENT EXAMPLE
                  ]
   :min-lein-version "2.0.0"
   :resource-paths ["config", "resources"]
