@@ -23,3 +23,17 @@
 18:53:23.482 [qtp48935545-23] INFO  io.pedestal.http - {:msg "GET /projects", :line 80}
 18:53:23.482 [qtp48935545-23] INFO  io.pedestal.http.cors - {:msg "cors request processing", :origin "", :allowed true, :line 84}
 18:53:23.485 [qtp48935545-23] INFO  io.pedestal.http.cors - {:msg "cors response processing", :cors-headers {"Access-Control-Allow-Origin" "", "Access-Control-Allow-Credentials" "true", "Access-Control-Expose-Headers" "Strict-Transport-Security, X-Frame-Options, X-Content-Type-Options, X-Xss-Protection, X-Download-Options, X-Permitted-Cross-Domain-Policies, Content-Security-Policy, Content-Type"}, :line 111}
+20:52:17.416 [main] INFO  org.eclipse.jetty.util.log - Logging initialized @4673ms to org.eclipse.jetty.util.log.Slf4jLog
+20:52:17.566 [main] INFO  org.eclipse.jetty.server.Server - jetty-9.4.0.v20161208
+20:52:17.591 [main] INFO  o.e.j.server.handler.ContextHandler - Started o.e.j.s.ServletContextHandler@591b8f15{/,null,AVAILABLE}
+20:52:17.602 [main] INFO  o.e.jetty.server.AbstractConnector - Started ServerConnector@376a34fb{HTTP/1.1,[http/1.1, h2c]}{localhost:5000}
+20:52:17.602 [main] INFO  org.eclipse.jetty.server.Server - Started @4860ms
+20:52:51.381 [qtp455889214-26] INFO  io.pedestal.http - {:msg "GET /projects/sleeping-cat", :line 80}
+20:52:51.385 [qtp455889214-26] INFO  io.pedestal.http.cors - {:msg "cors request processing", :origin "", :allowed true, :line 84}
+20:52:51.394 [qtp455889214-26] INFO  io.pedestal.http.cors - {:msg "cors response processing", :cors-headers {"Access-Control-Allow-Origin" "", "Access-Control-Allow-Credentials" "true", "Access-Control-Expose-Headers" "Strict-Transport-Security, X-Frame-Options, X-Content-Type-Options, X-Xss-Protection, X-Download-Options, X-Permitted-Cross-Domain-Policies, Content-Security-Policy, Content-Type"}, :line 111}
+20:52:56.778 [qtp455889214-24] INFO  io.pedestal.http - {:msg "GET /projects/sleeping-dog", :line 80}
+20:52:56.779 [qtp455889214-24] INFO  io.pedestal.http.cors - {:msg "cors request processing", :origin "", :allowed true, :line 84}
+20:52:56.781 [qtp455889214-24] INFO  io.pedestal.http.cors - {:msg "cors response processing", :cors-headers {"Access-Control-Allow-Origin" "", "Access-Control-Allow-Credentials" "true", "Access-Control-Expose-Headers" "Strict-Transport-Security, X-Frame-Options, X-Content-Type-Options, X-Xss-Protection, X-Download-Options, X-Permitted-Cross-Domain-Policies, Content-Security-Policy, Content-Type"}, :line 111}
+20:53:03.918 [qtp455889214-15] INFO  io.pedestal.http - {:msg "GET /projects/stinky-dog", :line 80}
+20:53:03.918 [qtp455889214-15] INFO  io.pedestal.http.cors - {:msg "cors request processing", :origin "", :allowed true, :line 84}
+20:53:03.922 [qtp455889214-15] INFO  io.pedestal.http.cors - {:msg "cors response processing", :cors-headers {"Access-Control-Allow-Origin" "", "Access-Control-Allow-Credentials" "true", "Access-Control-Expose-Headers" "Strict-Transport-Security, X-Frame-Options, X-Content-Type-Options, X-Xss-Protection, X-Download-Options, X-Permitted-Cross-Domain-Policies, Content-Security-Policy, Content-Type"}, :line 111}
