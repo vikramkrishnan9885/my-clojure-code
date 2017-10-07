@@ -2,7 +2,13 @@
   (:require [io.pedestal.http :as http]
             [io.pedestal.http.route :as route]
             [io.pedestal.http.body-params :as body-params]
-            [ring.util.response :as ring-resp])) ;; ALIASES IMPROVE READABILITY
+            [io.pedestal.interceptor.helpers :refer [definterceptor defhandler]] ;; WE ADDED THIS FOR TOKEN BASED AUTH
+            [ring.util.response :as ring-resp]
+            [monger.core :as mg] ;; WE ADDED THIS FOR MONGODB
+            [monger.collection :as mc]
+            [monger.json :as mj]
+  )
+) ;; ALIASES IMPROVE READABILITY
 
 
 ;; WE ARE MOCKING A JSON OBJECT RESPONSE
@@ -77,6 +83,16 @@
     )
 )
 
+(defhandler token-check [request]
+  (let [token (get-in request [:headers "x-catalog-token"])]
+    (if (not (= token "o brave new world"))
+      (assoc (ring-resp/response {:body "access-denied"}) :status 403) ;; ASSOC SETS THE STATUS KEY WITH THE VALUE WE DEFINE, OTHERWISE IT WOULD RETURN A 200 RESPONSE WHICH IS BAD
+    )
+  )
+)
+
+
+
 (
     defn add-project [request]
     (
@@ -90,7 +106,10 @@
 ;; Defines "/" and "/about" routes with their associated :get handlers.
 ;; The interceptors defined after the verb map (e.g., {:get home-page}
 ;; apply to / and its children (/about).
-(def common-interceptors [(body-params/body-params) http/html-body])
+(def common-interceptors [(body-params/body-params)
+                          http/html-body
+                          token-check]) ;; THIS IS OUR FUNCTION TO DO A BASIC API KEY TOKEN CHECK. INTERCEPTOR FUNCTIONS ARE LIKE THE @authenticated DECORATOR IN FLASK. An interceptor is a value. That means it acts like any other value in Clojure: you can pass it to a function or get it back as a return value. You could put it in an atom, a ref, an agent, or pass it on a channel. https://stuarth.github.io/clojure/pedestal-browser-repl/
+
 
 ;; Tabular routes
 (def routes #{["/" :get (conj common-interceptors `home-page)]
