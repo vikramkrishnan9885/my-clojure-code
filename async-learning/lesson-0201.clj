@@ -1,5 +1,5 @@
 (ns lesson-0201)
-(require '[clojure.core.async :refer [chan >!! <!! >! <! put! take! close! sliding-buffer dropping-buffer thread go]])
+(require '[clojure.core.async :refer [chan >!! <!! >! <! put! take! close! sliding-buffer dropping-buffer thread go alt!! alts!!]])
 
 (chan) ;; Channel permits multipler readers and writers. Channel ensures that race  conditions etc don't occur by ensuring proper blocking
 
@@ -93,3 +93,140 @@
 ;; Never use the blocking versions of take and put
 ;; go block stops translation at call to fn. Use doseq instead of fn
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;; Blocking IO example
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+(def logging-chan (chan 24))
+
+(future
+  (loop [] ;; take values one at a time from logging-chan
+    (when-some [v (<!! logging-chan)] ;; when-some closes when we are done
+      (println v)
+        (recur))))
+
+(defn log [& args]
+  (>!! logging-chan (apply str args)))
+
+(do
+  (future
+      (dotimes [x 100]
+        (println "(... " x " ...)")))
+  (future
+    (dotimes [x 100]
+      (println "(... " x " ...)")))
+)
+
+(do
+  (future
+      (dotimes [x 100]
+        (log "(... " x " ...)")))
+  (future
+    (dotimes [x 100]
+      (log "(... " x " ...)")))
+)
+
+;; Note some facts: You have two threads that are trying to access the same resource. We use CSP to resolve access issues by having:
+;; (1) the processes communicate with each other using channels
+;; (2) single thread manages the shared resource
+;; Hence Communicating Sequential Processes
+
+
+;; Backpressure
+
+(def c (chan 24))
+
+(go
+  (loop [i 0]
+    (println "Putting " i)
+    (>! c i)
+    (recur (inc i))))
+
+(<!! c)
+
+;; It is useful to think of this kind of modeling like an assembly line at an auto manufacturing store
+;; Your producers are working at a certain rate
+;; And your consumers are working at a different rate
+;; There could also be different number of producers and consumers
+;; And the channel is the conveyer belt that connects them
+
+;; We can use this to create dataflow style programming
+
+(defn map-pipe [in out f]
+  ;; write some body here
+  (go (loop []
+       (when-some [v (<! in)]
+          (>! out (f v))
+            (recur)))
+  (close! out)))
+
+(defn map-pipe-1
+  (
+    [in out f] ;; One type signature
+    (map-pipe-1 0 in out f) ;; Use this pattern when you want to have similar inputs with some default values
+  )
+  ([p in out f] ;; Another type signature
+   (dotimes [_ p] ;; Parallelize operations
+    (go (loop []
+         (when-some [v (<! in)]
+            (>! out (f v))
+              (recur)))
+    (close! out))))
+)
+
+(let [in (chan 1)
+      a (chan 1)
+      b (chan 1)
+      c (chan 1)
+      out (chan 1)] ;; adding 1 doubles the number of values in the system. In prod you can go much higher ~ 1024 if you have the RAM
+  (map-pipe in a step-a)
+  (map-pipe a b step-b)
+  (map-pipe-1 2 b c step-c)
+  (map-pipe c out step-d)) ;; Max number of values that can be in the system at a given time is 4 one for each step. To improve performance, add buffers in each channel . IRL the size of the buffer should depend on time take for a step to the next
+;; put! and >! should always have some kind of callback, to avoid backpressure
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;; alts! and alt!
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; select value from one or the other channel
+
+(let [c1 (chan 1)
+      c2 (chan 1)]
+  (>!! c1 42)
+  (>!! c2 44)
+  (thread
+    ;; (println (alts!! [c1 c2]))
+    (let [[v c] (alts!! [c1 c2])]
+      (println "Value: " v)
+      (println "Chan1? " (= c1 c))
+      (println "Chan2? " (= c2 c))
+                       ))) ;; alts!! selects one of a vector of channels. It returns value and name of channel
+;; Note that only one value is selected at random.
+;; General rule !! for blocking, typically inside a thread and ! inside go block
+
+
+;; alts!! followed by a case to determine which channel value is taken from is common enough that it has a macro called alt!!
+(let [c1 (chan 1)
+      c2 (chan 1)]
+  (>!! c1 42)
+  (>!! c2 44)
+  (thread
+    (println (alt!! [c1] :first
+                    [c2] :second))))
+
+
+(let [c1 (chan 1)
+      c2 (chan 1)]
+  (thread
+    (let [[v c] (alts!! [c1 [c2 42]])] ;; You can use alts!! to add values to a channel
+      (println "Value: " v)
+      (println "Chan1? " (= c1 c))
+      (println "Chan2? " (= c2 c))
+                       )))
