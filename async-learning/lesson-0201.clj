@@ -1,5 +1,6 @@
-(ns lesson-0201)
-(require '[clojure.core.async :refer [chan >!! <!! >! <! put! take! close! sliding-buffer dropping-buffer thread go alt!! alts!!]])
+(ns lesson-0201
+  (:refer-clojure  :exclude [merge])) ;;  otherwise if you use merge from core.async warnings will be thrown
+(require '[clojure.core.async :refer [chan >!! <!! >! <! put! take! close! sliding-buffer dropping-buffer thread go alt!! alts!! merge mult tap pub sub] :as async])
 
 (chan) ;; Channel permits multipler readers and writers. Channel ensures that race  conditions etc don't occur by ensuring proper blocking
 
@@ -106,7 +107,7 @@
   (loop [] ;; take values one at a time from logging-chan
     (when-some [v (<!! logging-chan)] ;; when-some closes when we are done
       (println v)
-        (recur))))
+        (recur)))) ;; note this loop pattern
 
 (defn log [& args]
   (>!! logging-chan (apply str args)))
@@ -215,11 +216,12 @@
 ;; alts!! followed by a case to determine which channel value is taken from is common enough that it has a macro called alt!!
 (let [c1 (chan 1)
       c2 (chan 1)]
-  (>!! c1 42)
-  (>!! c2 44)
+  ;;(>!! c1 42)
+  ;;(>!! c2 44)
   (thread
     (println (alt!! [c1] :first
-                    [c2] :second))))
+                    [c2] :second
+                    :default :the-default-val)))) ;; dont forget to specify :default to ensure that thread is not blocked if not values being put on channel
 
 
 (let [c1 (chan 1)
@@ -230,3 +232,88 @@
       (println "Chan1? " (= c1 c))
       (println "Chan2? " (= c2 c))
                        )))
+
+
+;; Channel priority with alts!
+;; Example use case: admin user could be on one channel and non-admin users on another channel
+
+(let [c1 (chan 1)
+      c2 (chan 1)]
+  (>!! c1 42)
+  (>!! c2 44)
+  (thread
+    (let [[v c] (alts!! [c1 c2] :priority true)] ;; note that priority means that it will only try the operation in that order. It wil not wait for the operation to be done in that order
+      (println "Value: " v)
+      (println "Chan1? " (= c1 c))
+      (println "Chan2? " (= c2 c))
+                       )))
+
+;; merge
+
+(let [c1 (chan 10)
+      c2 (chan 10)
+      cm (merge [c1 c2] 25)]
+
+(>!! c1 13)
+(>!! c2 12)
+(>!! c1 43)
+(>!! c2 32)
+(close! c1)
+(close! c2) ;; cm will close when c1 and c2 are closed
+
+(dotimes [x 4]
+  (println (<!! cm))))
+
+;; mult - broadcast single value to multiple channels
+
+(let [c (chan 10)
+      m (mult c)
+      t1 (chan 10)
+      t2 (chan 10)]
+  (tap m t1)
+  (tap m t2)
+
+  (>!! c 42)
+
+  (thread
+    (println "got from t1: " (<!! t1)))
+
+  (thread
+    (println "got from t2: " (<!! t2))))
+
+;; pub sub is an api in core async that we use when we want to distribute values across the syatem, but filter the value based on some criteria
+;; Used for categorizing data
+;; Combine with filters or multimethods
+
+(let [c (chan)
+      p (pub c pos?)
+      s1 (chan 10)
+      s2 (chan 10)
+    ]
+  (sub p true s1) ;; topic values true and false
+  (sub p false s2)
+
+  (>!! c 43)
+  (>!! c -56)
+  (>!! c -2)
+  (>!! c 32)
+
+  (thread
+    (println "s1:" (<!! s1))
+    (println "s1:" (<!! s1)))
+
+  (thread
+    (println "s2:" (<!! s2))
+    (println "s2:" (<!! s2)))
+  )
+
+
+;; reduce and into
+
+(let [c (chan)]
+  (async/onto-chan c (range 10))
+  (<!! (async/reduce conj [] c))) ;; you can use any reducing function here
+
+(let [c (chan)]
+  (async/onto-chan c (range 10))
+  (<!! (async/into #{} c))) ;; into - collection
