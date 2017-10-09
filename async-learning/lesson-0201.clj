@@ -317,3 +317,89 @@
 (let [c (chan)]
   (async/onto-chan c (range 10))
   (<!! (async/into #{} c))) ;; into - collection
+
+;; Problem with reducers or why we need transducers
+
+(defn -map [f col] ;; - in front of the function name is so that we do not confuse the two
+  (reduce ;; This is vanilla reduce not async/reduce
+    (fn [acc v] ;; This is a pattern you see often for TCO recursion: function on acc and v
+      (conj acc (f v)))
+    []
+    col))
+
+(defn -filter [f col]
+  (reduce
+    (fn [acc v]
+      (if (f v)
+        (conj acc v)
+        acc))
+    []
+    col))
+
+(-map inc [1 2 3 4])
+(-filter even? [1 3 2 6])
+
+;; note that in these cases, reduce is un-necessarily adding verbosity without being actually about map or filter
+;; instead make the functions reducer functions and call reduce on those
+
+(defn -mapping [f]
+  (fn [acc v]
+    (conj acc (f v))))
+
+(reduce (-mapping inc) [] [1 2 3 4])
+
+;; reducer functions have 3-arity
+
+(defn -map [f]
+  (fn [rf]
+    (fn
+      ([] (rf)) ;; zero arity
+      ([acc] (rf acc)) ;; 1-arity
+      ([acc v]
+       (rf acc (f v)))))) ;; 2-arity. looks the same as the reducer function for map with conj replaced with rf
+
+(defn -filter [f]
+  (fn [rf]
+    (fn
+      ([] (rf))
+      ([acc] (rf acc))
+      ([acc v]
+       (if (f v)
+         (rf acc v)
+         acc)))))
+
+(def inc-xf (comp (-map inc)
+                  (-filter even?)))
+
+(defn -conj!
+  ([] (transient []))
+  ([acc] (persistent! acc))
+  ([acc v] (conj! acc v))) ;; Need to find out more abt these
+
+(let [rf (inc-xf -conj!)]
+  (rf (reduce rf (rf) [1 2 3 4])))
+
+;; Working with transducers
+
+(let [c (chan 3 (map inc))] ;; Starting from Clojure 1.7, the key functions like map reduce etc are transducer compatible, just pass them to a channel with no arguments
+  (async/onto-chan c (range 10))
+  (<!! (async/into [] c)))
+
+(let [c (chan 3 (comp (map inc)
+                      (filter even?)))] ;; multiple functions can be passed using comp
+  (async/onto-chan c (range 10))
+  (<!! (async/into [] c)))
+;; Note that transducers with lock channel. So processes need to be efficient. map is a good candidate, as are filter and reduce. Never write to disc, fetch or write to database, any kind of IO inside a channel transducer.
+
+;; Pipeline provides simple, parallelized transformations of values in channels
+
+(let [c (chan) ;; input channel
+      out (chan)] ;; output channel
+  (async/onto-chan c (range 10)) ;; write onto input channel
+
+  ;; (async/pipeline n out xf c) ;; Pipeline takes four arguments n, to channel, a transform, from channel. Transform is a transducer
+  ;; Pipeline takes the value from the input channel, processes it with the parallelism of n, apply transform xf and write it to the output channel
+  (async/pipeline 5 out (map inc) c) ;; Pipelines preserves ordering. Use pipelines instead of trying to roll your own using go blocks
+  ;; Use case for pipeline-blocking is for accessing db, making web requests, writing to discs. Pipeline is for CPU bound. Pipeline blocking will spin up more threads and is good for IO bound operations
+
+  (<!! (async/into [] out))) ;; read from channel
