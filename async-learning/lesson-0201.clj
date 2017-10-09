@@ -1,6 +1,6 @@
 (ns lesson-0201
   (:refer-clojure  :exclude [merge])) ;;  otherwise if you use merge from core.async warnings will be thrown
-(require '[clojure.core.async :refer [chan >!! <!! >! <! put! take! close! sliding-buffer dropping-buffer thread go alt!! alts!! merge mult tap pub sub] :as async])
+(require '[clojure.core.async :refer [chan >!! <!! >! <! put! take! close! sliding-buffer dropping-buffer thread go alt!! alts!! merge mult tap pub sub offer! poll!] :as async])
 
 (chan) ;; Channel permits multipler readers and writers. Channel ensures that race  conditions etc don't occur by ensuring proper blocking
 
@@ -403,3 +403,17 @@
   ;; Use case for pipeline-blocking is for accessing db, making web requests, writing to discs. Pipeline is for CPU bound. Pipeline blocking will spin up more threads and is good for IO bound operations
 
   (<!! (async/into [] out))) ;; read from channel
+
+;; Pipeline functions in core async can be thought of as nodes in a dataflow graph
+
+;; Tuning and performance can be abstracted away from the code
+
+(let [c (chan 2)]
+  (println (offer! c 42))
+  (println (offer! c 41))
+  (println (offer! c 43))
+
+  (println (loop [acc []]
+             (if-some [v (poll! c)]
+                      (recur (conj acc v))
+                      acc))))
