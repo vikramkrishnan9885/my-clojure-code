@@ -1,0 +1,54 @@
+vikram@vikram-Lenovo-ideapad-Y900-17ISK:~$ psql -U clojure_blog -d clojure_blog -p 5432 -W -h localhost
+Password for user clojure_blog:
+psql: FATAL:  password authentication failed for user "clojure_blog"
+FATAL:  password authentication failed for user "clojure_blog"
+vikram@vikram-Lenovo-ideapad-Y900-17ISK:~$ psql -U clojure_blog -d clojure_blog -p 5432 -W -h localhost
+Password for user clojure_blog:
+psql: FATAL:  password authentication failed for user "clojure_blog"
+FATAL:  password authentication failed for user "clojure_blog"
+vikram@vikram-Lenovo-ideapad-Y900-17ISK:~$ sudo -i -u postgres[sudo] password for vikram:
+postgres@vikram-Lenovo-ideapad-Y900-17ISK:~$ psql -U clojure_blog -d clojure_blog -p 5432 -W -h localhost
+Password for user clojure_blog:
+psql: FATAL:  password authentication failed for user "clojure_blog"
+FATAL:  password authentication failed for user "clojure_blog"
+postgres@vikram-Lenovo-ideapad-Y900-17ISK:~$ psql -U clojure_blog -d clojure_blog  5432 -W -h localhost
+psql: warning: extra command-line argument "5432" ignored
+Password for user clojure_blog:
+psql: FATAL:  password authentication failed for user "clojure_blog"
+FATAL:  password authentication failed for user "clojure_blog"
+postgres@vikram-Lenovo-ideapad-Y900-17ISK:~$ exit
+logout
+vikram@vikram-Lenovo-ideapad-Y900-17ISK:~$ sudo -u clojure_blog psql
+psql (9.5.9)
+Type "help" for help.
+
+clojure_blog=# psql -d clojure_blog
+clojure_blog-#
+
+vikram@vikram-Lenovo-ideapad-Y900-17ISK:~$ sudo -u clojure_blog psql
+psql (9.5.9)
+Type "help" for help.
+
+clojure_blog=# psql -d clojure_blog
+clojure_blog-# create table entries ( id serial not null, title text, body text, constraint pk primary key (id));
+ERROR:  syntax error at or near "psql"
+LINE 1: psql -d clojure_blog
+        ^
+clojure_blog=# psql -d clojure_blog;
+ERROR:  syntax error at or near "psql"
+LINE 1: psql -d clojure_blog;
+        ^
+clojure_blog=# use clojure_blog;
+ERROR:  syntax error at or near "use"
+LINE 1: use clojure_blog;
+        ^
+clojure_blog=# \q
+vikram@vikram-Lenovo-ideapad-Y900-17ISK:~$ sudo -u clojure_blog psql -d clojure_blog
+psql (9.5.9)
+Type "help" for help.
+
+clojure_blog=#
+
+clojure_blog=# create table entries (id serial not null, title text, body text, constraint pk primary key (id));
+CREATE TABLE
+clojure_blog=#
