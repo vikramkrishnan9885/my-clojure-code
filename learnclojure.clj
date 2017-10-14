@@ -32,6 +32,7 @@
 (type '(1 2 3))
 (type (list 1 3 2)) ;; this uses the list constructor
 (first (list 1 3 4))
+;; (doc first) ;; Didn't work
 
 ;; Vectors
 (type (vector 1 3 4)) ;; this uses the vector constructor
