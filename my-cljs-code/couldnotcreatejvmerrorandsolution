@@ -1,0 +1,242 @@
+[vkrishnan@localhost my-cljs-code] $ lein new figwheel hello-world
+Retrieving figwheel/lein-template/0.5.13/lein-template-0.5.13.pom from clojars
+Retrieving figwheel/lein-template/0.5.13/lein-template-0.5.13.jar from clojars
+Generating fresh 'lein new' figwheel project.
+
+Change into your 'hello-world' directory and run 'lein figwheel'
+Wait for it to finish compiling
+Then open 'http://localhost:3449/index.html' in your browser
+[vkrishnan@localhost my-cljs-code] $ cd hello-world/
+[vkrishnan@localhost hello-world] $ lein figwheel
+Retrieving lein-figwheel/lein-figwheel/0.5.13/lein-figwheel-0.5.13.pom from clojars
+Retrieving simple-lein-profile-merge/simple-lein-profile-merge/0.1.4/simple-lein-profile-merge-0.1.4.pom from clojars
+Retrieving org/clojure/clojure/1.6.0/clojure-1.6.0.pom from central
+Retrieving lein-cljsbuild/lein-cljsbuild/1.1.7/lein-cljsbuild-1.1.7.pom from clojars
+Retrieving fs/fs/1.1.2/fs-1.1.2.pom from clojars
+Retrieving org/apache/commons/commons-compress/1.3/commons-compress-1.3.pom from central
+Retrieving org/clojure/clojure/1.6.0/clojure-1.6.0.jar from central
+Retrieving org/apache/commons/commons-compress/1.3/commons-compress-1.3.jar from central
+Retrieving lein-figwheel/lein-figwheel/0.5.13/lein-figwheel-0.5.13.jar from clojars
+Retrieving fs/fs/1.1.2/fs-1.1.2.jar from clojars
+Retrieving lein-cljsbuild/lein-cljsbuild/1.1.7/lein-cljsbuild-1.1.7.jar from clojars
+Retrieving simple-lein-profile-merge/simple-lein-profile-merge/0.1.4/simple-lein-profile-merge-0.1.4.jar from clojars
+Figwheel: Cutting some fruit, just a sec ...
+Retrieving figwheel/figwheel/0.5.13/figwheel-0.5.13.pom from clojars
+Retrieving org/clojure/clojure/1.8.0/clojure-1.8.0.pom from central
+Retrieving org/clojure/clojurescript/1.8.51/clojurescript-1.8.51.pom from central
+Retrieving com/google/javascript/closure-compiler/v20160315/closure-compiler-v20160315.pom from central
+Retrieving com/google/javascript/closure-compiler-main/v20160315/closure-compiler-main-v20160315.pom from central
+Retrieving com/google/javascript/closure-compiler-parent/v20160315/closure-compiler-parent-v20160315.pom from central
+Retrieving com/google/javascript/closure-compiler-externs/v20160315/closure-compiler-externs-v20160315.pom from central
+Retrieving args4j/args4j/2.0.26/args4j-2.0.26.pom from central
+Retrieving args4j/args4j-site/2.0.26/args4j-site-2.0.26.pom from central
+Retrieving org/kohsuke/pom/6/pom-6.pom from central
+Retrieving com/google/guava/guava/19.0/guava-19.0.pom from central
+Retrieving com/google/guava/guava-parent/19.0/guava-parent-19.0.pom from central
+Retrieving org/clojure/google-closure-library/0.0-20151016-61277aea/google-closure-library-0.0-20151016-61277aea.pom from central
+Retrieving org/clojure/google-closure-library-third-party/0.0-20151016-61277aea/google-closure-library-third-party-0.0-20151016-61277aea.pom from central
+Retrieving org/clojure/data.json/0.2.6/data.json-0.2.6.pom from central
+Retrieving org/clojure/pom.contrib/0.1.2/pom.contrib-0.1.2.pom from central
+Retrieving org/clojure/clojure/1.4.0/clojure-1.4.0.pom from central
+Retrieving org/mozilla/rhino/1.7R5/rhino-1.7R5.pom from central
+Retrieving org/clojure/tools.reader/1.0.0-beta1/tools.reader-1.0.0-beta1.pom from central
+Retrieving org/clojure/core.async/0.3.443/core.async-0.3.443.pom from central
+Retrieving org/clojure/pom.contrib/0.2.2/pom.contrib-0.2.2.pom from central
+Retrieving org/clojure/tools.analyzer.jvm/0.7.0/tools.analyzer.jvm-0.7.0.pom from central
+Retrieving org/clojure/pom.contrib/0.2.0/pom.contrib-0.2.0.pom from central
+Retrieving org/clojure/tools.analyzer/0.6.9/tools.analyzer-0.6.9.pom from central
+Retrieving org/clojure/core.memoize/0.5.9/core.memoize-0.5.9.pom from central
+Retrieving org/clojure/core.cache/0.6.5/core.cache-0.6.5.pom from central
+Retrieving org/clojure/data.priority-map/0.0.7/data.priority-map-0.0.7.pom from central
+Retrieving org/ow2/asm/asm-all/4.2/asm-all-4.2.pom from central
+Retrieving org/ow2/asm/asm-parent/4.2/asm-parent-4.2.pom from central
+Retrieving org/clojure/clojure/1.7.0/clojure-1.7.0.pom from central
+Retrieving figwheel-sidecar/figwheel-sidecar/0.5.13/figwheel-sidecar-0.5.13.pom from clojars
+Retrieving com/stuartsierra/component/0.3.2/component-0.3.2.pom from clojars
+Retrieving com/stuartsierra/dependency/0.2.0/dependency-0.2.0.pom from clojars
+Retrieving suspendable/suspendable/0.1.1/suspendable-0.1.1.pom from clojars
+Retrieving http-kit/http-kit/2.2.0/http-kit-2.2.0.pom from clojars
+Retrieving ring-cors/ring-cors/0.1.11/ring-cors-0.1.11.pom from clojars
+Retrieving ring/ring-core/1.6.1/ring-core-1.6.1.pom from clojars
+Retrieving ring/ring-codec/1.0.1/ring-codec-1.0.1.pom from clojars
+Retrieving commons-io/commons-io/2.5/commons-io-2.5.pom from central
+Retrieving commons-fileupload/commons-fileupload/1.3.2/commons-fileupload-1.3.2.pom from central
+Retrieving clj-time/clj-time/0.11.0/clj-time-0.11.0.pom from clojars
+Retrieving crypto-random/crypto-random/1.2.0/crypto-random-1.2.0.pom from clojars
+Retrieving crypto-equality/crypto-equality/1.0.0/crypto-equality-1.0.0.pom from clojars
+Retrieving clj-stacktrace/clj-stacktrace/0.2.8/clj-stacktrace-0.2.8.pom from clojars
+Retrieving hawk/hawk/0.2.11/hawk-0.2.11.pom from clojars
+Retrieving net/incongru/watchservice/barbary-watchservice/1.0/barbary-watchservice-1.0.pom from central
+Retrieving net/java/dev/jna/jna/3.2.2/jna-3.2.2.pom from central
+Retrieving org/clojure/tools.nrepl/0.2.13/tools.nrepl-0.2.13.pom from central
+Retrieving org/clojure/clojure/1.2.0/clojure-1.2.0.pom from central
+Retrieving strictly-specking-standalone/strictly-specking-standalone/0.1.1/strictly-specking-standalone-0.1.1.pom from clojars
+Retrieving net/cgrand/parsley/0.9.3/parsley-0.9.3.pom from clojars
+Retrieving net/cgrand/regex/1.1.0/regex-1.1.0.pom from clojars
+Retrieving net/cgrand/sjacket/0.1.1/sjacket-0.1.1.pom from clojars
+Retrieving org/clojure/clojure/1.9.0-alpha17/clojure-1.9.0-alpha17.pom from central
+Retrieving org/clojure/spec.alpha/0.1.123/spec.alpha-0.1.123.pom from central
+Retrieving org/clojure/core.specs.alpha/0.1.10/core.specs.alpha-0.1.10.pom from central
+Retrieving org/clojure/clojurescript/1.9.908/clojurescript-1.9.908.pom from central
+Retrieving com/google/javascript/closure-compiler-unshaded/v20170806/closure-compiler-unshaded-v20170806.pom from central
+Retrieving com/google/javascript/closure-compiler-main/v20170806/closure-compiler-main-v20170806.pom from central
+Retrieving com/google/javascript/closure-compiler-parent/v20170806/closure-compiler-parent-v20170806.pom from central
+Retrieving com/google/javascript/closure-compiler-externs/v20170806/closure-compiler-externs-v20170806.pom from central
+Retrieving args4j/args4j/2.33/args4j-2.33.pom from central
+Retrieving args4j/args4j-site/2.33/args4j-site-2.33.pom from central
+Retrieving org/kohsuke/pom/14/pom-14.pom from central
+Retrieving com/google/errorprone/error_prone_annotations/2.0.18/error_prone_annotations-2.0.18.pom from central
+Retrieving com/google/errorprone/error_prone_parent/2.0.18/error_prone_parent-2.0.18.pom from central
+Retrieving com/google/protobuf/protobuf-java/3.0.2/protobuf-java-3.0.2.pom from central
+Retrieving com/google/protobuf/protobuf-parent/3.0.2/protobuf-parent-3.0.2.pom from central
+Retrieving com/google/code/gson/gson/2.7/gson-2.7.pom from central
+Retrieving com/google/code/gson/gson-parent/2.7/gson-parent-2.7.pom from central
+Retrieving com/google/code/findbugs/jsr305/3.0.1/jsr305-3.0.1.pom from central
+Retrieving com/google/jsinterop/jsinterop-annotations/1.0.0/jsinterop-annotations-1.0.0.pom from central
+Retrieving com/google/jsinterop/jsinterop/1.0.0/jsinterop-1.0.0.pom from central
+Retrieving org/sonatype/oss/oss-parent/4/oss-parent-4.pom from central
+Retrieving org/clojure/google-closure-library/0.0-20170809-b9c14c6b/google-closure-library-0.0-20170809-b9c14c6b.pom from central
+Retrieving org/clojure/google-closure-library-third-party/0.0-20170809-b9c14c6b/google-closure-library-third-party-0.0-20170809-b9c14c6b.pom from central
+Retrieving org/clojure/tools.reader/1.0.5/tools.reader-1.0.5.pom from central
+Retrieving org/clojure/tools.reader/1.0.0-beta4/tools.reader-1.0.0-beta4.pom from central
+Retrieving org/clojure/tools.nrepl/0.2.12/tools.nrepl-0.2.12.pom from central
+Retrieving clojure-complete/clojure-complete/0.2.4/clojure-complete-0.2.4.pom from clojars
+Retrieving binaryage/devtools/0.9.4/devtools-0.9.4.pom from clojars
+Retrieving binaryage/env-config/0.2.0/env-config-0.2.0.pom from clojars
+Retrieving com/cemerick/piggieback/0.2.2/piggieback-0.2.2.pom from central
+Retrieving org/clojure/clojurescript/0.0-3165/clojurescript-0.0-3165.pom from central
+Retrieving com/google/javascript/closure-compiler/v20150126/closure-compiler-v20150126.pom from central
+Retrieving com/google/javascript/closure-compiler-parent/v20150126/closure-compiler-parent-v20150126.pom from central
+Retrieving com/google/javascript/closure-compiler-externs/v20150126/closure-compiler-externs-v20150126.pom from central
+Retrieving com/google/truth/truth/0.24/truth-0.24.pom from central
+Retrieving com/google/truth/truth-parent/0.24/truth-parent-0.24.pom from central
+Retrieving com/google/guava/guava/17.0/guava-17.0.pom from central
+Retrieving com/google/guava/guava-parent/17.0/guava-parent-17.0.pom from central
+Retrieving junit/junit/4.10/junit-4.10.pom from central
+Retrieving org/hamcrest/hamcrest-core/1.1/hamcrest-core-1.1.pom from central
+Retrieving org/hamcrest/hamcrest-parent/1.1/hamcrest-parent-1.1.pom from central
+Retrieving org/clojure/google-closure-library/0.0-20140718-946a7d39/google-closure-library-0.0-20140718-946a7d39.pom from central
+Retrieving org/clojure/google-closure-library-third-party/0.0-20140718-946a7d39/google-closure-library-third-party-0.0-20140718-946a7d39.pom from central
+Retrieving org/clojure/tools.reader/0.8.16/tools.reader-0.8.16.pom from central
+Retrieving commons-io/commons-io/2.5/commons-io-2.5.jar from central
+Retrieving commons-fileupload/commons-fileupload/1.3.2/commons-fileupload-1.3.2.jar from central
+Retrieving joda-time/joda-time/2.8.2/joda-time-2.8.2.jar from central
+Retrieving net/incongru/watchservice/barbary-watchservice/1.0/barbary-watchservice-1.0.jar from central
+Retrieving net/java/dev/jna/jna/3.2.2/jna-3.2.2.jar from central
+Retrieving org/clojure/clojure/1.9.0-alpha17/clojure-1.9.0-alpha17.jar from central
+Retrieving org/clojure/spec.alpha/0.1.123/spec.alpha-0.1.123.jar from central
+Retrieving org/clojure/core.specs.alpha/0.1.10/core.specs.alpha-0.1.10.jar from central
+Retrieving org/clojure/clojurescript/1.9.908/clojurescript-1.9.908.jar from central
+Retrieving com/google/javascript/closure-compiler-unshaded/v20170806/closure-compiler-unshaded-v20170806.jar from central
+Retrieving com/google/javascript/closure-compiler-externs/v20170806/closure-compiler-externs-v20170806.jar from central
+Retrieving args4j/args4j/2.33/args4j-2.33.jar from central
+Retrieving com/google/errorprone/error_prone_annotations/2.0.18/error_prone_annotations-2.0.18.jar from central
+Retrieving com/google/code/gson/gson/2.7/gson-2.7.jar from central
+Retrieving com/google/protobuf/protobuf-java/3.0.2/protobuf-java-3.0.2.jar from central
+Retrieving com/google/code/findbugs/jsr305/3.0.1/jsr305-3.0.1.jar from central
+Retrieving com/google/jsinterop/jsinterop-annotations/1.0.0/jsinterop-annotations-1.0.0.jar from central
+Retrieving org/clojure/google-closure-library/0.0-20170809-b9c14c6b/google-closure-library-0.0-20170809-b9c14c6b.jar from central
+Retrieving org/clojure/google-closure-library-third-party/0.0-20170809-b9c14c6b/google-closure-library-third-party-0.0-20170809-b9c14c6b.jar from central
+Retrieving org/clojure/data.json/0.2.6/data.json-0.2.6.jar from central
+Retrieving org/mozilla/rhino/1.7R5/rhino-1.7R5.jar from central
+Retrieving org/clojure/tools.reader/1.0.5/tools.reader-1.0.5.jar from central
+Retrieving org/clojure/core.async/0.3.443/core.async-0.3.443.jar from central
+Retrieving org/clojure/tools.analyzer.jvm/0.7.0/tools.analyzer.jvm-0.7.0.jar from central
+Retrieving org/clojure/tools.analyzer/0.6.9/tools.analyzer-0.6.9.jar from central
+Retrieving org/clojure/core.memoize/0.5.9/core.memoize-0.5.9.jar from central
+Retrieving org/clojure/core.cache/0.6.5/core.cache-0.6.5.jar from central
+Retrieving org/clojure/data.priority-map/0.0.7/data.priority-map-0.0.7.jar from central
+Retrieving org/ow2/asm/asm-all/4.2/asm-all-4.2.jar from central
+Retrieving org/clojure/tools.nrepl/0.2.12/tools.nrepl-0.2.12.jar from central
+Retrieving com/cemerick/piggieback/0.2.2/piggieback-0.2.2.jar from central
+Retrieving figwheel/figwheel/0.5.13/figwheel-0.5.13.jar from clojars
+Retrieving com/stuartsierra/dependency/0.2.0/dependency-0.2.0.jar from clojars
+Retrieving com/stuartsierra/component/0.3.2/component-0.3.2.jar from clojars
+Retrieving suspendable/suspendable/0.1.1/suspendable-0.1.1.jar from clojars
+Retrieving figwheel-sidecar/figwheel-sidecar/0.5.13/figwheel-sidecar-0.5.13.jar from clojars
+Retrieving ring-cors/ring-cors/0.1.11/ring-cors-0.1.11.jar from clojars
+Retrieving http-kit/http-kit/2.2.0/http-kit-2.2.0.jar from clojars
+Retrieving ring/ring-core/1.6.1/ring-core-1.6.1.jar from clojars
+Retrieving clj-time/clj-time/0.11.0/clj-time-0.11.0.jar from clojars
+Retrieving ring/ring-codec/1.0.1/ring-codec-1.0.1.jar from clojars
+Retrieving crypto-random/crypto-random/1.2.0/crypto-random-1.2.0.jar from clojars
+Retrieving crypto-equality/crypto-equality/1.0.0/crypto-equality-1.0.0.jar from clojars
+Retrieving clj-stacktrace/clj-stacktrace/0.2.8/clj-stacktrace-0.2.8.jar from clojars
+Retrieving hawk/hawk/0.2.11/hawk-0.2.11.jar from clojars
+Retrieving strictly-specking-standalone/strictly-specking-standalone/0.1.1/strictly-specking-standalone-0.1.1.jar from clojars
+Retrieving net/cgrand/regex/1.1.0/regex-1.1.0.jar from clojars
+Retrieving net/cgrand/parsley/0.9.3/parsley-0.9.3.jar from clojars
+Retrieving net/cgrand/sjacket/0.1.1/sjacket-0.1.1.jar from clojars
+Retrieving clojure-complete/clojure-complete/0.2.4/clojure-complete-0.2.4.jar from clojars
+Retrieving binaryage/devtools/0.9.4/devtools-0.9.4.jar from clojars
+Retrieving binaryage/env-config/0.2.0/env-config-0.2.0.jar from clojars
+Unrecognized VM option 'UseCGroupMemoryLimitForHeap'
+Error: Could not create the Java Virtual Machine.
+Error: A fatal exception has occurred. Program will exit.
+Subprocess failed
+[vkrishnan@localhost hello-world] $ usr/bin/java -v
+bash: usr/bin/java: No such file or directory
+[vkrishnan@localhost hello-world] $ usr/local/bin/java -v
+bash: usr/local/bin/java: No such file or directory
+[vkrishnan@localhost hello-world] $ cd /usr/bin/java
+bash: cd: /usr/bin/java: Not a directory
+[vkrishnan@localhost hello-world] $ cd /usr/java
+[vkrishnan@localhost java] $ ls
+default  jdk1.8.0_101  jre1.8.0_101  latest
+[vkrishnan@localhost java] $ cd ~
+[vkrishnan@localhost ~] $ export JAVA_HOME="/usr/java/latest"
+[vkrishnan@localhost ~] $ cd ~/Dropbox/udemy/LearningClojure/my-clojure-code/my-cljs-code/
+[vkrishnan@localhost my-cljs-code] $ ls
+hello-world  mies
+[vkrishnan@localhost my-cljs-code] $ cd hello-world/
+[vkrishnan@localhost hello-world] $ lein figwheel
+Figwheel: Cutting some fruit, just a sec ...
+Unrecognized VM option 'UseCGroupMemoryLimitForHeap'
+Error: Could not create the Java Virtual Machine.
+Error: A fatal exception has occurred. Program will exit.
+Subprocess failed
+[vkrishnan@localhost hello-world] $ export _JAVA_OPTIONS=-Xmx512M
+[vkrishnan@localhost hello-world] $ lein figwheel
+Picked up _JAVA_OPTIONS: -Xmx512M
+Figwheel: Cutting some fruit, just a sec ...
+Unrecognized VM option 'UseCGroupMemoryLimitForHeap'
+Error: Could not create the Java Virtual Machine.
+Error: A fatal exception has occurred. Program will exit.
+Subprocess failed
+[vkrishnan@localhost hello-world] $ lein figwheel
+Picked up _JAVA_OPTIONS: -Xmx512M
+Figwheel: Cutting some fruit, just a sec ...
+Picked up _JAVA_OPTIONS: -Xmx512M
+Figwheel: Validating the configuration found in project.clj
+Figwheel: Configuration Valid ;)
+Figwheel: Starting server at http://0.0.0.0:3449
+Figwheel: Watching build - dev
+Figwheel: Cleaning build - dev
+Compiling "resources/public/js/compiled/hello_world.js" from ["src"]...
+Successfully compiled "resources/public/js/compiled/hello_world.js" in 17.152 seconds.
+Figwheel: Starting CSS Watcher for paths  ["resources/public/css"]
+Launching ClojureScript REPL for build: dev
+Figwheel Controls:
+          (stop-autobuild)                ;; stops Figwheel autobuilder
+          (start-autobuild [id ...])      ;; starts autobuilder focused on optional ids
+          (switch-to-build id ...)        ;; switches autobuilder to different build
+          (reset-autobuild)               ;; stops, cleans, and starts autobuilder
+          (reload-config)                 ;; reloads build config and resets autobuild
+          (build-once [id ...])           ;; builds source one time
+          (clean-builds [id ..])          ;; deletes compiled cljs target files
+          (print-config [id ...])         ;; prints out build configurations
+          (fig-status)                    ;; displays current state of system
+          (figwheel.client/set-autoload false)    ;; will turn autoloading off
+          (figwheel.client/set-repl-pprint false) ;; will turn pretty printing off
+  Switch REPL build focus:
+          :cljs/quit                      ;; allows you to switch REPL to another build
+    Docs: (doc function-name-here)
+    Exit: Control+C or :cljs/quit
+ Results: Stored in vars *1, *2, *3, *e holds last exception object
+Prompt will show when Figwheel connects to your application
+To quit, type: :cljs/quit
+dev:cljs.user=>
+=========================================================================
+SOLUTION:
+========================================================================
+https://github.com/technomancy/leiningen/blob/master/doc/FAQ.md

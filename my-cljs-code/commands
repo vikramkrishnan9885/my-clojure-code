@@ -1,0 +1,17 @@
+dev:cljs.user=> (.sqrt js/Math 3)
+1.7320508075688772
+dev:cljs.user=> ;; Clojurescript does not have a math lib. It uses JS math lib
+dev:cljs.user=> (.random js/Math)
+0.8258914023745219
+dev:cljs.user=> (.-PI js/Math)
+3.141592653589793
+dev:cljs.user=> (.alert js/window "Hello World !") ;; Goto browser
+Eval timed out!
+No stacktrace available.
+nil
+dev:cljs.user=>
+
+(dom/getElement "A")
+(.-value (dom/getElement "A"))
+(set! (.-value (dom/getElement "A")) "2010")
+(set! (.-size (dom/getElement "A")) "2010")
