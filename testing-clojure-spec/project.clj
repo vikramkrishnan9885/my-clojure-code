@@ -5,7 +5,10 @@
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :dependencies [
                  [org.clojure/clojure "1.9.0-alpha16"]
+                  [org.clojure/test.check "0.9.0"]
                 ]
   :main testing-clojure-spec.core
   :jvm-opts ^:replace [] ;; again we had to add this line see leiningen Github FAQ for further details
+  ;; :profiles {:dev {:dependencies [org.clojure/test.check "0.9.0"]}}
+
 )
