@@ -211,7 +211,7 @@
 ;; Instead of using classes to implement our suboperations, we’ll use higherorder functions; and instead of relying on subclassing, we’ll rely on function
 ;; composition.
 
-;; we’ll use Pattern 16, Function Builder, on page 167, named
+;; PROBLEM STATEMENT: We’ll use Pattern 16, Function Builder, on page 167, named
 ;; make-grade-reporter, to compose together a function that converts numeric grades
 ;; to letter grades and a function that prints a report. The make-grade-reporter
 ;; returns a function that maps num-to-letter over a sequence of numeric grades.
@@ -257,6 +257,12 @@
 ;; Strategy has a few parts. The first is an interface that represents some algorithm, such as a bit of validation logic or a sorting routine. The second is one
 ;; or more implementations of that interface; these are the strategy classes
 ;; themselves. Finally, one or more clients use the strategy objects.
+
+;; PROBLEM STATEMENT: We’ll implement two different validation strategies for a person that contain
+;; a first, middle, and last name. The first strategy will consider the person valid
+;; if he or she has a first name, the second will only consider the person valid
+;; if all three names are set. On top of that, we’ll look at some simple client code
+;; that collects valid people together.
 (defn first-name-valid? [person]
   (not (nil? (:first-name person))))
 
@@ -294,7 +300,7 @@
 ;; NullPointerException, even if there is a reasonable default behavior that can handle
 ;; the lack of a value.
 
-;; Clojure doesn't really help here
+;; Clojure doesn't really help here. Scala however has Option
 
 ;; PATTERN 9 DECORATOR
 ;; To add behavior to an individual object rather than to an entire class of
@@ -304,6 +310,8 @@
 ;; world, one simple replacement is to create a higher-order function that takes
 ;; in the existing function and returns a new, wrapped function.
 
+
+;; PROBLEM STATEMENT: Add logging to a function
 (defn add [a b] (+ a b))
 (defn subtract [a b] (- a b))
 (defn multiply [a b] (* a b))
@@ -323,3 +331,132 @@
 (logging-add 2 3)
 
 ;; PATTERN 10: VISITOR PATTERN
+;; Data Type Extension
+;; To encapsulate an action to be performed on a data structure in a way that
+;; allows the addition of new operations to the data structure without having
+;; to modify it.
+;; The Visitor pattern makes it possible to add new operations to an object-oriented 
+;; data type but difficult, or impossible, to add new implementations of
+;; the type. In the functional world, this is the norm. It’s easy to add a new
+;; operation on some data type by writing a new function that operates on it,
+;; but it’s difficult to add new data types to an existing operation
+
+;; Clojure has ad-hoc polymorphism, unlike Scala which implements polymorphism through 
+;; a heirarchy of subclasses
+
+;; Ad-hoc polymorphism in Clojure is implemented using protocols and records
+
+(defprotocol NameExtractor
+  (extract-name [this] "Extracts a name from a person"))
+
+(defrecord SimplePerson [first-name last-name house-num street])
+
+(def simple-person 
+  (->SimplePerson "Mike" "Linn" 123 "Apple Street")
+)
+
+(:first-name simple-person)
+
+;; Notice how we defined our data type and the set of operations independently?
+;; To hook the two together, we can use extend-type to have our SimplePerson
+;; implement the NameExtractor protocol, as we do in the following snippet:
+(extend-type SimplePerson
+  NameExtractor
+  (extract-name [this]
+    (str (:first-name this) " " (:last-name this))))
+
+(extract-name simple-person)
+
+(defprotocol
+  AddressExtractor
+  (extract-address [this] "Extracts and address from a person."))
+
+(extend-type SimplePerson
+  AddressExtractor
+  (extract-address [this]
+  (str (:house-num this) " " (:street this))))
+
+(extract-address simple-person)
+
+;; This example will help you convince you that protocols and records are indeed orthogonal
+(defrecord ComplexPerson [name address]
+  NameExtractor
+  (extract-name [this]
+  (str (-> this :name :first) " " (-> this :name :last))))
+
+(def complex-person (->ComplexPerson {:first "Mike" :last "Linn"}
+{:house-num 123 :street "Fake St."}))
+
+(extract-name complex-person)
+
+(extend-type ComplexPerson
+  AddressExtractor
+  (extract-address [this]
+    (str (-> this :address :house-num)
+    " "
+    (-> this :address :street))))
+
+(extract-address complex-person)
+
+;; Protocol and multimethods are complementary and intended for slightly different use cases.
+;; Protocols provide efficient polymorphic dispatch based on the type of the first argument. 
+;; Because the is able to exploit some very efficient JVM features, protocols give you the best performance.
+;; Multimethods enable very flexible polymorphism which can dispatch based on any function of the 
+;; method's arguments. Multimethods are slower but very flexible
+;; One detail Protocols have that multimethods don’t is the ability to group related methods. 
+;; For example, if I wanted to create head and tail methods for collections, I could do so in a 
+;; single protocol:
+(defprotocol LispyColl
+  (head [in] "Get the head")
+  (tail [in] "Get the tail"))
+;; Protocols also make explicit the relationships between types. You can use extends?, and 
+;; satisfies? to inspect a type to see if it satisfies a given protocol; to do the same with a multimethod requires that you explicitly specify the relationship using derive.
+;; On the other hand, multimethods are not limited to single dispatch on type–you can use 
+;; multimethods for multiple dispatch on arbitrary attributes. Take this example, shamelessly 
+;; adapted from clojuredocs.org:
+(defmulti greeting :language)
+(defmethod greeting "English" [_] "Hi")
+(defmethod greeting "French" [_] "Salut")
+(greeting {:language "English"}) ; => "Hi"
+;; Ultimately, multimethods and protocols are designed to solve very similar problems. Protocols 
+;; mirror and extend Java’s capabilities to gain greater performance and interoperability. 
+;; Multimethods provide a less object-oriented and more lisp-y way of doing the same thing, with 
+;; an added genericism that allows them to be much more flexible. If you need to dispatch on 
+;; something other than class, multimethods are the way to go for sure.
+;;My recommendation? If your problem fits – dispatch on types, benefits from inheritance – 
+;; use protocols for performance and explicitness; otherwise, use multimethods.
+
+;; PROBLEM STATEMENT:
+;; In Java, this is a problem that’s impossible to solve well. Extending the shape
+;; type to have additional implementations is easy. We create a Shape interface
+;; with multiple implementations.
+;; If we want to extend Shape so that it has new implementations, it’s a bit more
+;; difficult, but we can use Visitor
+;; However, if we go this route, it’s now difficult to have new implementations
+;; because we’d have to modify all of the existing Visitors. If the Visitors are implemented by 
+;; third-party code, it can be impossible to extend in this dimension
+;; without introducing backwards-incompatible changes.
+;; In Java, we need to decide at the outset whether we want to add new operations over our Shape 
+;; or whether we want new implementations of it
+
+(defmulti perimeter (fn [shape] (:shape-name shape)))
+(defmethod perimeter :circle [circle]
+  (* 2 Math/PI (:radius circle)))
+(defmethod perimeter :rectangle [rectangle]
+  (+ (* 2 (:width rectangle)) (* 2 (:height rectangle))))
+(def some-shapes [{:shape-name :circle :radius 4}
+  {:shape-name :rectangle :width 2 :height 2}])
+(for [shape some-shapes] (perimeter shape))
+
+;; PATTERN 11: DEPENDENCY INJECTION
+;; This is where Clojure really shines. All you need is simple HoFs
+(defn get-movie [movie-id]
+  {:id "42" :title "A Movie"})
+
+(defn get-favorite-videos [user-id]
+  [{:id "1"}])
+
+(defn get-favorite-decorated-videos [user-id get-movie get-favorite-videos]
+  (for [video (get-favorite-videos user-id)]
+    {:movie (get-movie (:id video))
+     :video video}))
