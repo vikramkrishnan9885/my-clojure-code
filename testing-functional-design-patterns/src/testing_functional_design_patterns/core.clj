@@ -232,7 +232,115 @@
 ;; the Chain of Operations and then hand it off to a runtime when done. The
 ;; runtime would then be responsible for performing the IO.
 
+;; PATTERN 16: FUNCTION BUILDER
+;; Create a function that itself creates functions. allowing us to synthesize behaviors on the fly
+
+;; To use Function Builder, we write a higher-order function that returns a
+;; function. The Function Builder implementation encodes some pattern we’ve discovered.
+
+;; Example 1: Discount Calculator Builder
+
+(defn discount [percentage]
+{:pre [(and (>= percentage 0) (<= percentage 100))]}
+(fn [price] (- price (* price percentage 0.01))))
+
+(defn disc50 [price] ((discount 50) price))
+
+(disc50 200)
+
+;; Example 2: Marp Key Selector
+;; Create a function that extracts values out of maps nested within each other
+;;  Clojure has a handy function called get-in, which is tailor-made to pick values out of deeply nested maps.
 
 
+(defn selector [& path]
+{:pre [(not (empty? path))]}
+(fn [ds] (get-in ds path)))
+
+(def person {:address {:street {:name "Fake St."}}})
+(def streetName (selector :address :street :name))
+(streetName person)
+
+;; Example 3: Function Composition (Super Important)
+;; Chain function invocations together
+;; To quote from the book:  One common situation that
+;; comes up in web application frameworks is the need to pass an HTTP request
+;; through a series of user-defined chunks of code. J2EE’s servlet filters,2 which
+;; pass a request through a chain of filters before it is handled, are a common
+;; example of such a filter chain.
+;; Filter chains allow application code to do anything that needs to be done before
+;; request handling, like decrypting and decompressing the request, checking
+;; authentication credentials, logging to a request log, and so forth. Let’s sketch out
+;; how we’d do this using function composition. First, we’ll need a way to represent
+;; HTTP requests.
+(defn append-a [s] (str s "a"))
+(defn append-b [s] (str s "b"))
+(defn append-c [s] (str s "c"))
+(def append-cba (comp append-a append-b append-c))
+(append-cba "z")
+
+(def request
+  {:headers
+    {"Authorization" "auth" "X-RequestFingerprint" "fingerprint"}
+  :body "body"
+   }
+)
+
+(defn check-authorization [request]
+  (let [auth-header (get-in request [:headers "Authorization"])]
+    (assoc
+      request
+      :principal
+      (if-not (nil? auth-header) "AUser"))))
+
+(defn log-fingerprint [request]
+  (let [fingerprint (get-in request [:headers "X-RequestFingerprint"])]
+    (println (str "FINGERPRINT=" fingerprint))
+    request))
+
+(defn compose-filters [filters]
+  (reduce
+    (fn [all-filters, current-filter] (comp all-filters current-filter))
+    filters))
+
+(def filter-chain (compose-filters [check-authorization log-fingerprint]))
+
+(filter-chain request)
 
 
+;; Example 4: Partially applied functions
+(defn tax-for-state [state amount]
+(cond ;; note cond not if
+(= :ny state) (* amount 0.0645)
+(= :pa state) (* amount 0.045)))
+(def ny-tax (partial tax-for-state :ny)) ;; Note only the arguments that are being partially applied come at  the beginning of the arg-vector
+(def pa-tax (partial tax-for-state :pa))
+
+;; PATTERN 17: MEMOIZATION
+;; To cache the results of a pure function call to avoid performing the same computation more than once
+;; Use memoize keyword
+
+;; PATTERN 18: LAZY SEQUENCE
+;; Most of Clojure's core seq manipulation is done in a lazy manner, e.g. range and repeatedly functionss
+;; https://clojuredocs.org/clojure.core/repeatedly
+;; Also, In Clojure, we can construct an instance of Lazy Sequence from scratch using
+;; lazy-sequence and add to it with cons, as shown in the following snippet:
+;; => (cons 1 (lazy-seq [2]))
+
+;; PATTERN 19: FOCUSED MUTABILITY
+;; Let us become Clojure ninja's before we try this
+
+
+;; PATTERN 20: CUSTOMIZED CONTROL FLOW
+;; Method 1: Use HoFs
+(defn choose [num first second third]
+  (cond
+    (= 1 num) (first)
+    (= 2 num) (second)
+    (= 3 num) (third)))
+(choose 2
+  (fn [] (println "hello, world"))
+  (fn [] (println "goodbye, cruel world"))
+  (fn [] (println "meh, indifferent world")))
+
+;; Method 2: Clojure Macros: TBD in greater detail
